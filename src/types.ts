@@ -100,3 +100,11 @@ export interface RklParams {
   country?: string;
   [key: string]: any;
 }
+
+export interface KadEventMonitorParams {
+  case_number: string;
+  country?: string;
+  previous_snapshot?: Record<string, any>;
+  openai_interpretation?: boolean | number | string;
+  [key: string]: any;
+}

@@ -73,6 +73,7 @@ run().catch(console.error);
 * `checkFnsBlock({ inn, bik? })` — блокировки счетов (ФНС)
 * `checkBankrot({ inn?, ogrn? })` — банкротство юридических лиц
 * `checkArbitr(inn)` — арбитражные дела компании
+* `monitorKadCase({ case_number })` — процессуальный мониторинг конкретного дела КАД
 * `checkFssp(inn)` — исполнительные производства компании
 * `complexCheck({ inn })` — комплексная проверка организации + проверка руководства и учредителей
 

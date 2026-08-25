@@ -15,6 +15,7 @@ import {
   ComplexPassportParams,
   EgrulParams,
   ComplexInnParams,
+  KadEventMonitorParams,
   RklParams,
 } from './types.js';
 import {
@@ -91,6 +92,10 @@ export class LegalApi {
 
   checkArbitr(inn: string) {
     return this.client.execute({ method: 'arbitr_legal', inn, country: 'ru' });
+  }
+
+  monitorKadCase(params: KadEventMonitorParams) {
+    return this.client.execute({ method: 'kad_event_monitor', country: 'ru', ...params });
   }
 
   checkFssp(inn: string) {
