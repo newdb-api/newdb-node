@@ -2,7 +2,19 @@
  * NewDB Client for Node.js and TypeScript.
  */
 
-import { randomUUID } from 'crypto';
+declare const process: any;
+
+function generateUuid(): string {
+  const gCrypto = typeof globalThis !== 'undefined' ? (globalThis as any).crypto : null;
+  if (gCrypto && typeof gCrypto.randomUUID === 'function') {
+    return gCrypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 import {
   NewDBClientOptions,
   BalanceResponse,
@@ -26,6 +38,8 @@ import {
 } from './errors.js';
 
 const DEFAULT_BASE_URL = 'https://api.newdb.net/v2';
+const TEST_BASE_URL = 'https://api.newdb.net/test/v2';
+const DEFAULT_TEST_TOKEN = 'test_token_newdb_sandbox';
 
 export class PersonApi {
   constructor(private client: NewDBClient) {}
@@ -144,18 +158,30 @@ export class NewDBClient {
   private apiKey: string;
   private baseUrl: string;
   private timeoutMs: number;
+  public testMode: boolean;
 
   public person: PersonApi;
   public legal: LegalApi;
   public foreign: ForeignApi;
   public property: PropertyApi;
 
-  constructor(options: NewDBClientOptions) {
-    if (!options.apiKey) {
+  constructor(options: NewDBClientOptions = {}) {
+    const envTest =
+      typeof process !== 'undefined' &&
+      ['1', 'true', 'yes'].includes(String(process.env?.NEWDB_TEST_MODE || '').toLowerCase());
+    this.testMode = Boolean(options.testMode ?? envTest);
+
+    const envKey = typeof process !== 'undefined' ? process.env?.NEWDB_API_KEY : undefined;
+    const resolvedKey = options.apiKey || envKey || (this.testMode ? DEFAULT_TEST_TOKEN : '');
+
+    if (!resolvedKey) {
       throw new AuthenticationError('API Key is required.');
     }
-    this.apiKey = options.apiKey.trim();
-    this.baseUrl = (options.baseUrl || DEFAULT_BASE_URL).replace(/\/$/, '');
+    this.apiKey = resolvedKey.trim();
+
+    const envBaseUrl = typeof process !== 'undefined' ? process.env?.NEWDB_BASE_URL : undefined;
+    const defaultUrl = this.testMode ? TEST_BASE_URL : (envBaseUrl || DEFAULT_BASE_URL);
+    this.baseUrl = (options.baseUrl || defaultUrl).replace(/\/$/, '');
     this.timeoutMs = options.timeoutMs || 60000;
 
     this.person = new PersonApi(this);
@@ -189,7 +215,7 @@ export class NewDBClient {
   }
 
   public async execute(params: Record<string, any>, requestId?: string, webhook?: string): Promise<TaskResponse> {
-    const reqId = requestId || randomUUID();
+    const reqId = requestId || generateUuid();
     const payload: Record<string, any> = {
       requestId: reqId,
       params,

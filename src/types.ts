@@ -3,9 +3,10 @@
  */
 
 export interface NewDBClientOptions {
-  apiKey: string;
+  apiKey?: string;
   baseUrl?: string;
   timeoutMs?: number;
+  testMode?: boolean;
 }
 
 export interface BalanceResponse {

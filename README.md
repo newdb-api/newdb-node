@@ -54,6 +54,34 @@ run().catch(console.error);
 
 ---
 
+### Тестовый режим (Sandbox / Test Mode)
+
+Для тестирования и локальной отладки интеграции без списания запросов с баланса используйте флаг `testMode: true`:
+
+```typescript
+import { NewDBClient } from '@newdb/sdk';
+
+// Активация тестового контура https://api.newdb.net/test/v2
+const client = new NewDBClient({ testMode: true });
+
+// Либо через переменную окружения:
+// process.env.NEWDB_TEST_MODE = '1';
+// const client = new NewDBClient();
+
+async function runTest() {
+  const res = await client.person.checkPassportMvd({
+    seria: '4510',
+    number: '123456',
+    firstname: 'Иван',
+    lastname: 'Иванов',
+  });
+  console.log('Тестовый ответ:', res.results);
+}
+runTest();
+```
+
+---
+
 ## Поддерживаемые методы
 
 ### Физические лица (`client.person.*`)
