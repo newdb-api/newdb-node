@@ -50,6 +50,11 @@ export declare class LegalApi {
     checkArbitr(inn: string): Promise<TaskResponse>;
     monitorKadCase(params: KadEventMonitorParams): Promise<TaskResponse>;
     checkFssp(inn: string): Promise<TaskResponse>;
+    checkBo(params: {
+        inn: string;
+        get_screen?: boolean;
+        [key: string]: any;
+    }): Promise<TaskResponse>;
     complexCheck(params: ComplexInnParams): Promise<TaskResponse>;
 }
 export declare class ForeignApi {
@@ -86,6 +91,8 @@ export declare class NewDBClient {
     property: PropertyApi;
     constructor(options?: NewDBClientOptions);
     getBalance(): Promise<BalanceResponse>;
+    generateReport(requestId: string, format?: 'html' | 'pdf', reportType?: string): Promise<ArrayBuffer>;
+    generateAggregatedReport(requestIds: string[], reportType: string, format?: 'html' | 'pdf'): Promise<ArrayBuffer>;
     execute(params: Record<string, any>, requestId?: string, webhook?: string): Promise<TaskResponse>;
     getTask(requestId: string): Promise<TaskResponse>;
     waitForResult(requestId: string, options?: WaitOptions): Promise<TaskResponse>;

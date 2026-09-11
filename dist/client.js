@@ -82,6 +82,9 @@ class LegalApi {
     checkFssp(inn) {
         return this.client.execute({ method: 'fssp_legal', inn, country: 'ru' });
     }
+    checkBo(params) {
+        return this.client.execute({ method: 'fns_bo', country: 'ru', ...params });
+    }
     complexCheck(params) {
         return this.client.execute({ method: 'complex_by_inn', country: 'ru', ...params });
     }
@@ -168,6 +171,31 @@ class NewDBClient {
             balance: data.balance || 0,
             raw: data,
         };
+    }
+    async generateReport(requestId, format = 'html', reportType) {
+        const query = new URLSearchParams({ requestId, format });
+        if (reportType)
+            query.set('report_type', reportType);
+        const response = await fetch(`${this.baseUrl}/report?${query.toString()}`, {
+            headers: { 'X-API-KEY': this.apiKey },
+        });
+        if (response.status === 401 || response.status === 403)
+            throw new errors_js_1.AuthenticationError();
+        if (!response.ok)
+            throw new errors_js_1.APIResponseError(await response.text(), response.status);
+        return response.arrayBuffer();
+    }
+    async generateAggregatedReport(requestIds, reportType, format = 'html') {
+        const response = await fetch(`${this.baseUrl}/report`, {
+            method: 'POST',
+            headers: { 'X-API-KEY': this.apiKey, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ requestIds, report_type: reportType, format }),
+        });
+        if (response.status === 401 || response.status === 403)
+            throw new errors_js_1.AuthenticationError();
+        if (!response.ok)
+            throw new errors_js_1.APIResponseError(await response.text(), response.status);
+        return response.arrayBuffer();
     }
     async execute(params, requestId, webhook) {
         const reqId = requestId || generateUuid();

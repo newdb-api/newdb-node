@@ -116,6 +116,10 @@ export class LegalApi {
     return this.client.execute({ method: 'fssp_legal', inn, country: 'ru' });
   }
 
+  checkBo(params: { inn: string; get_screen?: boolean; [key: string]: any }) {
+    return this.client.execute({ method: 'fns_bo', country: 'ru', ...params });
+  }
+
   complexCheck(params: ComplexInnParams) {
     return this.client.execute({ method: 'complex_by_inn', country: 'ru', ...params });
   }
@@ -212,6 +216,28 @@ export class NewDBClient {
       balance: data.balance || 0,
       raw: data,
     };
+  }
+
+  public async generateReport(requestId: string, format: 'html' | 'pdf' = 'html', reportType?: string): Promise<ArrayBuffer> {
+    const query = new URLSearchParams({ requestId, format });
+    if (reportType) query.set('report_type', reportType);
+    const response = await fetch(`${this.baseUrl}/report?${query.toString()}`, {
+      headers: { 'X-API-KEY': this.apiKey },
+    });
+    if (response.status === 401 || response.status === 403) throw new AuthenticationError();
+    if (!response.ok) throw new APIResponseError(await response.text(), response.status);
+    return response.arrayBuffer();
+  }
+
+  public async generateAggregatedReport(requestIds: string[], reportType: string, format: 'html' | 'pdf' = 'html'): Promise<ArrayBuffer> {
+    const response = await fetch(`${this.baseUrl}/report`, {
+      method: 'POST',
+      headers: { 'X-API-KEY': this.apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ requestIds, report_type: reportType, format }),
+    });
+    if (response.status === 401 || response.status === 403) throw new AuthenticationError();
+    if (!response.ok) throw new APIResponseError(await response.text(), response.status);
+    return response.arrayBuffer();
   }
 
   public async execute(params: Record<string, any>, requestId?: string, webhook?: string): Promise<TaskResponse> {
