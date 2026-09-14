@@ -121,6 +121,9 @@ class PropertyApi {
     checkPledgeVin(vin) {
         return this.client.execute({ method: 'pledge_vin', vin, country: 'ru' });
     }
+    checkVin(vin, getScreen = 0) {
+        return this.client.execute({ method: 'vin_check', vin, get_screen: getScreen });
+    }
 }
 exports.PropertyApi = PropertyApi;
 class NewDBClient {

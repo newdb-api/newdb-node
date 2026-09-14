@@ -105,6 +105,15 @@ runTest();
 * `checkFssp(inn)` — исполнительные производства компании
 * `complexCheck({ inn })` — комплексная проверка организации + проверка руководства и учредителей
 
+### HTML/PDF-отчеты
+
+```typescript
+const pdf = await client.generateReport(task.requestId, 'pdf');
+const foreignHtml = await client.generateAggregatedReport(requestIds, 'complex_foreign', 'html');
+```
+
+Методы возвращают `ArrayBuffer` с содержимым готового файла.
+
 ### Иностранные граждане (`client.foreign.*`)
 * `checkRkl({ firstname, lastname, dob, id_doc_number, ... })` — реестр контролируемых лиц (РКЛ МВД)
 * `checkPatent({ number, seria?, region? })` — трудовой патент (Москва, МО, регионы)

@@ -79,6 +79,7 @@ export declare class PropertyApi {
         [key: string]: any;
     }): Promise<TaskResponse>;
     checkPledgeVin(vin: string): Promise<TaskResponse>;
+    checkVin(vin: string, getScreen?: number): Promise<TaskResponse>;
 }
 export declare class NewDBClient {
     private apiKey;
