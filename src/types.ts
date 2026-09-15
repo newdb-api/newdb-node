@@ -109,3 +109,17 @@ export interface KadEventMonitorParams {
   openai_interpretation?: boolean | number | string;
   [key: string]: any;
 }
+
+export interface IntellectualPropertyParams {
+  query?: string;
+  search_type?: 'all' | 'patents' | 'trademarks' | 'programs' | string;
+  trademark_name?: string;
+  applicant?: string;
+  reg_num?: string;
+  appl_num?: string;
+  limit?: number;
+  offset?: number;
+  country?: string;
+  [key: string]: any;
+}
+

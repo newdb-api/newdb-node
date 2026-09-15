@@ -160,6 +160,28 @@ export class PropertyApi {
   checkVin(vin: string, getScreen: number = 0) {
     return this.client.execute({ method: 'vin_check', vin, get_screen: getScreen });
   }
+
+  checkIntellectualProperty(params: {
+    query?: string;
+    search_type?: string;
+    trademark_name?: string;
+    applicant?: string;
+    reg_num?: string;
+    appl_num?: string;
+    limit?: number;
+    offset?: number;
+    country?: string;
+    [key: string]: any;
+  } = {}) {
+    return this.client.execute({
+      method: 'intellectual_property',
+      search_type: 'all',
+      limit: 10,
+      offset: 0,
+      country: 'ru',
+      ...params,
+    });
+  }
 }
 
 export class NewDBClient {
