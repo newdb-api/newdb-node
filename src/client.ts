@@ -72,6 +72,21 @@ export class PersonApi {
     return this.client.execute({ method: 'arbitr_person', country: 'ru', ...params });
   }
 
+  /** Арбитраж по компаниям физлица: ЕГРЮЛ-связи + агрегация дел КАД со скорингом субсидиарного риска. */
+  checkCourtArbitration(params: { innfiz: string; company_limit?: number; [key: string]: any }) {
+    return this.client.execute({ method: 'court_arbitration', country: 'ru', ...params });
+  }
+
+  /** Сумма задолженностей физлица по арбитражным делам КАД (агрегат debt_summary). */
+  checkArbitrDebtSum(params: { innfiz: string; max_cases?: number; [key: string]: any }) {
+    return this.client.execute({ method: 'arbitr_debt_sum', country: 'ru', ...params });
+  }
+
+  /** Долги ФССП по связанным компаниям физлица (ЕГРЮЛ-связи + ФССП по компаниям). */
+  checkFsspCompany(params: { inn: string; max_companies?: number; only_active?: boolean; [key: string]: any }) {
+    return this.client.execute({ method: 'fssp_company', country: 'ru', ...params });
+  }
+
   checkNalogDebt(inn: string) {
     return this.client.execute({ method: 'nalog_debt', inn, country: 'ru' });
   }

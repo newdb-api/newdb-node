@@ -123,3 +123,33 @@ export interface IntellectualPropertyParams {
   [key: string]: any;
 }
 
+export interface CourtArbitrationParams {
+  /** ИНН физлица, 12 цифр. */
+  innfiz: string;
+  /** Максимум компаний физлица для проверки по КАД (1..100). Влияет на стоимость. */
+  company_limit?: number;
+  [key: string]: any;
+}
+
+export interface ArbitrDebtSumParams {
+  /** ИНН физлица. */
+  innfiz: string;
+  /** Сколько дел детально разобрать (1..50, default 20). */
+  max_cases?: number;
+  [key: string]: any;
+}
+
+export interface FsspCompanyParams {
+  /** ИНН физлица, 12 цифр. */
+  inn: string;
+  /** Максимальное количество проверяемых связанных компаний (от 1 до 50). */
+  max_companies?: number;
+  /** Проверять только действующие компании. */
+  only_active?: boolean;
+  /** Роли связи: 'director', 'founder'. */
+  include_roles?: string[];
+  /** Код региона для ФССП. */
+  regioncode?: string | number;
+  country?: string;
+  [key: string]: any;
+}
