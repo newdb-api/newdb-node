@@ -45,6 +45,17 @@ export interface PassportMvdParams {
   [key: string]: any;
 }
 
+export interface DriverLicenseParams {
+  num: string;
+  lastname: string;
+  firstname: string;
+  birthdate: string;
+  secondname?: string;
+  get_screen?: number;
+  country?: string;
+  [key: string]: any;
+}
+
 export interface PassportFnsParams {
   seria: string;
   number: string;

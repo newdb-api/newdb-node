@@ -22,6 +22,7 @@ import {
   MethodResult,
   WaitOptions,
   PassportMvdParams,
+  DriverLicenseParams,
   PassportFnsParams,
   FsspPersonParams,
   ComplexPassportParams,
@@ -46,6 +47,10 @@ export class PersonApi {
 
   checkPassportMvd(params: PassportMvdParams) {
     return this.client.execute({ method: 'passport_mvd', country: 'ru', ...params });
+  }
+
+  checkDriverLicense(params: DriverLicenseParams) {
+    return this.client.execute({ method: 'driver_license', country: 'ru', ...params });
   }
 
   checkPassportFns(params: PassportFnsParams) {
