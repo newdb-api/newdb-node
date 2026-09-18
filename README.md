@@ -95,6 +95,7 @@ runTest();
 * `checkNalogDebt(inn)` — налоговая задолженность
 * `checkFnsBlock(innfiz)` — блокировки банковских счетов (ФНС)
 * `checkEgrulIp(innfiz)` — выписка ЕГРИП и статус индивидуального предпринимателя
+* `checkOpenSanctions({ query, inn?, birth_date?, max_results? })` — санкционный и PEP-скрининг с точным уточнением карточек
 
 ### Юридические лица (`client.legal.*`)
 * `checkEgrul({ inn?, ogrn? })` — сведения ЕГРЮЛ и «Прозрачный бизнес»

@@ -28,6 +28,7 @@ import {
   DisqualifiedPersonParams,
   FsinWantedParams,
   CorporateRestrictionsPersonParams,
+  OpenSanctionsParams,
   ComplexPassportParams,
   EgrulParams,
   ComplexInnParams,
@@ -74,6 +75,10 @@ export class PersonApi {
 
   checkCorporateRestrictions(params: CorporateRestrictionsPersonParams) {
     return this.client.execute({ method: 'corporate_restrictions_person', country: 'ru', ...params });
+  }
+
+  checkOpenSanctions(params: OpenSanctionsParams) {
+    return this.client.execute({ method: 'opensanctions', max_results: 25, country: 'ru', ...params });
   }
 
   complexCheck(params: ComplexPassportParams) {

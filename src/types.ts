@@ -104,6 +104,15 @@ export interface CorporateRestrictionsPersonParams {
   [key: string]: any;
 }
 
+export interface OpenSanctionsParams {
+  query: string;
+  inn?: string;
+  birth_date?: string;
+  max_results?: number;
+  country?: string;
+  [key: string]: any;
+}
+
 export interface ComplexPassportParams {
   seria: string;
   number: string;
