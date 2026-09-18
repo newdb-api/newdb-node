@@ -25,6 +25,9 @@ import {
   DriverLicenseParams,
   PassportFnsParams,
   FsspPersonParams,
+  DisqualifiedPersonParams,
+  FsinWantedParams,
+  CorporateRestrictionsPersonParams,
   ComplexPassportParams,
   EgrulParams,
   ComplexInnParams,
@@ -59,6 +62,18 @@ export class PersonApi {
 
   checkFssp(params: FsspPersonParams) {
     return this.client.execute({ method: 'fssp_person', regioncode: '100', country: 'ru', ...params });
+  }
+
+  checkDisqualified(params: DisqualifiedPersonParams) {
+    return this.client.execute({ method: 'disqualified_person', country: 'ru', ...params });
+  }
+
+  checkFsinWanted(params: FsinWantedParams) {
+    return this.client.execute({ method: 'fsin_wanted', get_details: true, country: 'ru', ...params });
+  }
+
+  checkCorporateRestrictions(params: CorporateRestrictionsPersonParams) {
+    return this.client.execute({ method: 'corporate_restrictions_person', country: 'ru', ...params });
   }
 
   complexCheck(params: ComplexPassportParams) {

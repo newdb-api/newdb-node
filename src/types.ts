@@ -77,6 +77,33 @@ export interface FsspPersonParams {
   [key: string]: any;
 }
 
+export interface DisqualifiedPersonParams {
+  query: string;
+  dob?: string;
+  max_pages?: number;
+  country?: string;
+  [key: string]: any;
+}
+
+export interface FsinWantedParams {
+  fio: string;
+  dob?: string;
+  territory?: string;
+  get_details?: boolean;
+  max_pages?: number;
+  country?: string;
+  [key: string]: any;
+}
+
+export interface CorporateRestrictionsPersonParams {
+  innfiz?: string;
+  inn?: string;
+  fio?: string;
+  ogrn?: string;
+  country?: string;
+  [key: string]: any;
+}
+
 export interface ComplexPassportParams {
   seria: string;
   number: string;
