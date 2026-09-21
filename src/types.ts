@@ -200,3 +200,14 @@ export interface FsspCompanyParams {
   country?: string;
   [key: string]: any;
 }
+
+export interface ProverkiKnmParams {
+  /** ИНН проверяемого субъекта (10 цифр для юрлица, 12 цифр для ИП). */
+  inn?: string;
+  /** Поисковый запрос (если поиск без ИНН). */
+  query?: string;
+  /** Максимальное количество страниц результатов (по 50 записей, по умолчанию 5). */
+  max_pages?: number;
+  country?: string;
+  [key: string]: any;
+}

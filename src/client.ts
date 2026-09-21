@@ -34,6 +34,7 @@ import {
   ComplexInnParams,
   KadEventMonitorParams,
   RklParams,
+  ProverkiKnmParams,
 } from './types.js';
 import {
   AuthenticationError,
@@ -162,6 +163,10 @@ export class LegalApi {
 
   complexCheck(params: ComplexInnParams) {
     return this.client.execute({ method: 'complex_by_inn', country: 'ru', ...params });
+  }
+
+  checkProverkiKnm(params: ProverkiKnmParams = {}) {
+    return this.client.execute({ method: 'proverki_knm', country: 'ru', ...params });
   }
 }
 
