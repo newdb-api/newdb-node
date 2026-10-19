@@ -87,6 +87,7 @@ export interface DisqualifiedPersonParams {
 
 export interface FsinWantedParams {
   fio: string;
+  /** Required by the API (DD.MM.YYYY or YYYY-MM-DD). */
   dob?: string;
   territory?: string;
   get_details?: boolean;

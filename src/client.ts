@@ -71,6 +71,10 @@ export class PersonApi {
   }
 
   checkFsinWanted(params: FsinWantedParams) {
+    // dob is required by the API (DD.MM.YYYY or YYYY-MM-DD); the type stays optional for compatibility.
+    if (!params || !String(params.dob ?? '').trim()) {
+      throw new Error('fsin_wanted: dob (дата рождения) обязателен, формат DD.MM.YYYY или YYYY-MM-DD');
+    }
     return this.client.execute({ method: 'fsin_wanted', get_details: true, country: 'ru', ...params });
   }
 
